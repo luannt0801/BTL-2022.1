@@ -28,8 +28,8 @@ Restaurant *A;
 int N; // so luong nha hang
 Node *root;// nut goc
 
-int sosanhvido(const void *a, const void *b);
-void sapxeptheovido(Restaurant *A);
+int sosanhkhoangcach(const void *a, const void *b);
+void sapxeptheokc(Restaurant *A);
 
 Node* CreateNode(Restaurant p, int d );
 Node *recursive_pst_const(Restaurant *A, int l, int h);
@@ -46,17 +46,17 @@ void find(Node *root, Restaurant q);
 int main()
 {
     int kinhdo, vido;
-    cout << "Nhap vao toa do cua nha hang: "<<endl;
-    cin >> kinhdo >> vido;
+	kinhdo = 1;
+	vido = 2;
     N = 7;
 	A = (Restaurant*)malloc(N*sizeof(Restaurant));
-	A[0].k = 1; A[0].v = 5;A[0].money = 1200;
-	A[1].k = 3; A[1].v = 2;A[1].money = 900;
-	A[2].k = 5; A[2].v = 6;A[2].money = 2100;
-	A[3].k = 1; A[3].v = 4;A[3].money = 1500;
-	A[4].k = 4; A[4].v = 3;A[4].money = 1800;
-	A[5].k = 7; A[5].v = 1;A[5].money = 750;
-	A[6].k = 7; A[6].v = 7;A[6].money = 2200;
+	A[0].k = 192; A[0].v = 121;A[0].money = 1200;
+	A[1].k = 20; A[1].v = 13;A[1].money = 900;
+	A[2].k = 70; A[2].v = 102;A[2].money = 2100;
+	A[3].k = 127; A[3].v = 45;A[3].money = 1500;
+	A[4].k = 34; A[4].v = 60;A[4].money = 1800;
+	A[5].k = 291; A[5].v = 70;A[5].money = 750;
+	A[6].k = 139; A[6].v = 172;A[6].money = 2200;
 	for (int i = 0; i<N; i++)
 	{
 		int tmp1 = 0;
@@ -66,7 +66,7 @@ int main()
 	//print_array(A,7);
 	//cout << endl;
 	cout <<"Sap xep thu tu cac nha hang theo khoang cach: " << endl;
-	sapxeptheovido(A);
+	sapxeptheokc(A);
 	cout << endl;
 	cout <<"In ra PST: "<< endl;
 	print_tree(root);
@@ -76,8 +76,8 @@ int main()
 }
 
 // sắp xếp các node theo khoang cach tăng dần
-void sapxeptheovido(Restaurant *A){
-	qsort(A,N,sizeof(*A), sosanhvido);
+void sapxeptheokc(Restaurant *A){
+	qsort(A,N,sizeof(*A), sosanhkhoangcach);
 	print_array(A,N);
 	root = recursive_pst_const(A,0, N-1);
 }
@@ -92,6 +92,7 @@ Node* CreateNode(Restaurant p, int d )
 }
 
 // đệ quy để tạo ra tree
+
 Node *recursive_pst_const(Restaurant *A, int l, int h){
 
 	if(h < l) 
@@ -105,7 +106,7 @@ Node *recursive_pst_const(Restaurant *A, int l, int h){
 	else if(h-l == 1){
 		Node *a = CreateNode(A[l], A[l].money);
 		Node *b = CreateNode(A[h], A[h].money);
-		if(a->R.distance < b->R.distance){
+		if(a->R.distance > b->R.distance){
 			a->right = b;
 			return a;
 		}else {
@@ -137,7 +138,6 @@ Node *recursive_pst_const(Restaurant *A, int l, int h){
 		return s;
 
 	}
-
 }
 
 void print_node(Node *u){
@@ -167,9 +167,9 @@ void print_tree(Node *root){
 	print_tree(root->right); 	
 }
 
-int sosanhvido(const void* a, const void* b)
+int sosanhkhoangcach(const void* a, const void* b)
 {
 	Restaurant *Pa = (Restaurant *)a;
 	Restaurant *Pb = (Restaurant *)b;
-	return Pa->distance - Pb->distance;
+	return Pa->money - Pb->money;
 }
